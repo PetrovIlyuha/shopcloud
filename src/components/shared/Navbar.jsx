@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-// import * as db from "../../firestore";
+import * as db from "../../firestore";
 
 function Navbar() {
   const { pathname } = useLocation();
@@ -42,7 +42,10 @@ function Navbar() {
           <span className="ml-3 text-xl xl:block lg:hidden">ShopSharer</span>
         </a>
         <div className="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
-          <button className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
+          <button
+            onClick={db.logoutUser}
+            className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0"
+          >
             Logout
             <svg
               fill="none"

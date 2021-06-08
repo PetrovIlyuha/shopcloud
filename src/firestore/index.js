@@ -28,3 +28,8 @@ export async function signInWithGoogle() {
 export function checkAuthState(cb) {
   return auth.onAuthStateChanged(cb);
 }
+
+export async function logoutUser() {
+  await auth.signOut();
+  window.location.reload();
+}
