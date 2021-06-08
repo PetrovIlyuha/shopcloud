@@ -5,10 +5,10 @@ import ListPage from "./pages/ListPage";
 import HomePage from "./pages/HomePage";
 import Loading from "./components/shared/Loading";
 import SignIn from "./components/SignIn";
-import useAuth from "./hooks/useAuth";
+import { UserStateProvider, useUserState } from "./components/UserContext";
 
 function App() {
-  const { user, loading } = useAuth();
+  const { user, loading } = useUserState();
   if (loading) return <Loading />;
   return user ? <AuthApp /> : <UnAuthApp />;
 }
@@ -30,7 +30,9 @@ function UnAuthApp() {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <UserStateProvider>
+      <App />
+    </UserStateProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
