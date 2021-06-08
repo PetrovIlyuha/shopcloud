@@ -8,7 +8,7 @@ function CreateList() {
   return (
     <div className="flex flex-col text-center w-full mb-12">
       <h1 className="text-2xl font-medium title-font mb-4 text-white tracking-widest">
-        WELCOME, {user?.displayName ?? "USER"}!
+        WELCOME, {user?.displayName.toUpperCase() ?? "USER"}!
       </h1>
       <p className="lg:w-2/3 mx-auto mb-12 leading-relaxed text-base">
         To get started, create a list with a name and a cover image
