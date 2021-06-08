@@ -1,6 +1,6 @@
 import React from "react";
-import homeSvg from "../../static/home.svg";
-// import * as db from "../firestore";
+import homeSvg from "../../static/signIn.svg";
+import * as db from "../firestore";
 
 function SignIn() {
   return (
@@ -14,15 +14,15 @@ function SignIn() {
           />
           <div className="text-center lg:w-2/3 w-full">
             <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium italic text-white">
-              ShopSharer
+              ShopCloud
             </h1>
             <p className="leading-relaxed mb-8 ">
-              ShopSharer is a social app that enables you to share your shopping
+              ShopCloud is a social app that enables you to share your shopping
               lists with friends in realtime.
             </p>
             <div className="flex justify-center">
               <button
-                // onClick={db.signInWithGoogle}
+                onClick={db.signInWithGoogle}
                 className="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg"
               >
                 Sign In With Google
