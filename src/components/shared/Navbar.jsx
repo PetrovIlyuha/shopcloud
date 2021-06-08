@@ -1,11 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import * as db from "../../firestore";
+import { useUserState } from "../UserContext";
 
 function Navbar() {
   const { pathname } = useLocation();
-  const { user } = useAuth();
+  const { user } = useUserState();
   const isHomeRoute = pathname === "/";
   return (
     <header className="text-gray-500 bg-gray-900 body-font">

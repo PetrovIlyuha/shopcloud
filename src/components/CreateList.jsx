@@ -1,9 +1,10 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
+import { useUserState } from "./UserContext";
 // import * as db from "../firestore";
 
 function CreateList() {
-  const { user } = useAuth();
+  const { user } = useUserState();
   return (
     <div className="flex flex-col text-center w-full mb-12">
       <h1 className="text-2xl font-medium title-font mb-4 text-white tracking-widest">
