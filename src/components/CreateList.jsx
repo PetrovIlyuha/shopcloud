@@ -1,10 +1,29 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
 import { useUserState } from "./UserContext";
-// import * as db from "../firestore";
+import * as db from "../firestore";
 
 function CreateList() {
   const { user } = useUserState();
+  const [newList, setNewList] = React.useState({
+    name: "",
+    description: "",
+    image: "",
+  });
+
+  const { name, description, image } = newList;
+  const handleInputChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setNewList((prev) => ({ ...prev, image: files[0] }));
+    } else {
+      setNewList((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const createList = () => {
+    db.createList(newList, user);
+  };
   return (
     <div className="flex flex-col text-center w-full mb-12">
       <h1 className="text-2xl font-medium title-font mb-4 text-white tracking-widest">
@@ -19,12 +38,16 @@ function CreateList() {
           placeholder="Add list name"
           type="text"
           name="name"
+          value={name}
+          onChange={handleInputChange}
           required
         />
         <textarea
           className="bg-gray-900 rounded border text-white border-gray-900 focus:outline-none focus:border-green-500 text-base px-4 py-2 mb-4"
           placeholder="Add short description"
           type="text"
+          value={description}
+          onChange={handleInputChange}
           name="description"
         />
         <input
@@ -32,9 +55,19 @@ function CreateList() {
           placeholder="Add list name"
           type="file"
           name="image"
+          onChange={handleInputChange}
         />
-        {/* display preview image */}
-        <button className="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
+        {image && (
+          <img
+            className="mb-4"
+            src={URL.createObjectURL(image)}
+            alt="preview"
+          />
+        )}
+        <button
+          onClick={createList}
+          className="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg"
+        >
           Create List
         </button>
         <p className="text-xs text-gray-600 mt-3">*List name required</p>
