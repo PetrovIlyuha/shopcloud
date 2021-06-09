@@ -1,19 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import defaultImage from "../../static/default.svg";
-// import * as db from "../firestore";
-// import Empty from "./shared/Empty";
-// import Error from "./shared/Error";
-// import Loading from "./shared/Loading";
+import defaultImage from "../../static/default.svg";
+import * as db from "../firestore";
+import { useUserState } from "./UserContext";
+import Empty from "./shared/Empty";
+import Error from "./shared/Error";
+import Loading from "./shared/Loading";
+import useSWR from "swr";
 
-function UserLists() {
+function UserLists({ user }) {
+  const auth = useUserState();
+  const { data: lists, error } = useSWR(auth.user.uid, db.getUserLists);
+  if (!lists) return <Loading />;
+  if (error) return <Error message={error} />;
+  if (!lists.length) return <Empty />;
   return (
     <>
       {/* display user list count */}
       <section className="text-gray-500 bg-gray-900 body-font">
         <div className="container px-5 py-5 mx-auto">
           <div className="flex flex-wrap -m-4">
-            {/* display lists that user is part of  */}
+            {lists.map((list) => (
+              <ListItem key={list.id} list={list} />
+            ))}
           </div>
         </div>
       </section>
@@ -45,7 +54,8 @@ function UserListCount() {
   );
 }
 
-function ListItem() {
+function ListItem({ list }) {
+  console.dir({ list });
   return (
     <div className="lg:w-1/3 sm:w-1/2 p-4">
       {" "}
@@ -54,7 +64,7 @@ function ListItem() {
           <img
             alt="gallery"
             className="absolute inset-0 w-full h-full object-cover object-center"
-            src={defaultImage}
+            src={list.image || defaultImage}
           />
           <div className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100">
             <ul className="list-disc">
@@ -63,9 +73,9 @@ function ListItem() {
               </li>
             </ul>
             <h1 className="title-font text-lg font-medium text-white mb-3">
-              Name
+              {list.name}
             </h1>
-            <p className="leading-relaxed">Description</p>
+            <p className="leading-relaxed">{list.description}</p>
           </div>
         </div>
       </Link>
