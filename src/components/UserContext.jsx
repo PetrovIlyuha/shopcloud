@@ -13,6 +13,5 @@ export const UserStateProvider = ({ children }) => {
 };
 
 export const useUserState = () => {
-  const { user, loading } = React.useContext(UserContext);
-  return { user, loading };
+  return React.useContext(UserContext);
 };
