@@ -2,6 +2,7 @@ import React from "react";
 import useAuth from "../hooks/useAuth";
 import { useUserState } from "./UserContext";
 import * as db from "../firestore";
+import { mutate } from "swr";
 
 function CreateList() {
   const { user } = useUserState();
@@ -10,6 +11,7 @@ function CreateList() {
     description: "",
     image: "",
   });
+  const [submitting, setSubmitting] = React.useState(false);
 
   const { name, description, image } = newList;
   const handleInputChange = (e) => {
@@ -21,8 +23,17 @@ function CreateList() {
     }
   };
 
-  const createList = () => {
-    db.createList(newList, user);
+  const createList = async () => {
+    try {
+      setSubmitting(true);
+      await db.createList(newList, user);
+      mutate(user.uid);
+      setNewList({ name: "", description: "", image: "" });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSubmitting(false);
+    }
   };
   return (
     <div className="flex flex-col text-center w-full mb-12">
@@ -66,9 +77,10 @@ function CreateList() {
         )}
         <button
           onClick={createList}
+          disabled={submitting}
           className="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg"
         >
-          Create List
+          {submitting ? "Creating..." : "Create List"}
         </button>
         <p className="text-xs text-gray-600 mt-3">*List name required</p>
       </div>
