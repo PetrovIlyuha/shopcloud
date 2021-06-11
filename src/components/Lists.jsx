@@ -16,7 +16,7 @@ function UserLists({ user }) {
   if (!lists.length) return <Empty />;
   return (
     <>
-      {/* display user list count */}
+      <UserListCount count={lists.length} />
       <section className="text-gray-500 bg-gray-900 body-font">
         <div className="container px-5 py-5 mx-auto">
           <div className="flex flex-wrap -m-4">
@@ -30,7 +30,7 @@ function UserLists({ user }) {
   );
 }
 
-function UserListCount() {
+function UserListCount({ count }) {
   return (
     <div className="container px-5 py-5 mb-6 bg-gray-800 rounded mx-auto flex justify-center text-center">
       <div className="p-4 sm:w-1/4 w-1/2">
@@ -46,7 +46,7 @@ function UserListCount() {
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
         </svg>
         <h2 className="title-font font-medium sm:text-4xl text-3xl text-white">
-          count
+          {count}
         </h2>
         <p className="leading-relaxed">Lists</p>
       </div>
@@ -55,7 +55,6 @@ function UserListCount() {
 }
 
 function ListItem({ list }) {
-  console.dir({ list });
   return (
     <div className="lg:w-1/3 sm:w-1/2 p-4">
       {" "}
